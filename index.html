@@ -1,0 +1,19 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Data</title>
+</head>
+<body>
+    <h1>Data from C++ Program</h1>
+    <div id="data">Loading...</div>
+
+    <script>
+        fetch('data.json')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('data').innerText = JSON.stringify(data, null, 2);
+            });
+    </script>
+</body>
+</html>
