@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据结构与算法 - 庄宇哲的算法博客</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .algorithm-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .algorithm-section {
+            margin-bottom: 40px;
+        }
+        .algorithm-section h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .code-block {
+            background-color: #000000;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            margin: 15px 0;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><a href="../index.html">庄宇哲的算法博客</a></div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">返回首页</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="algorithm-content">
+        <h1>数据结构与算法</h1>
+        
+        <section class="algorithm-section">
+            <h2>链表</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 单链表实现
+#include<iostream>
+using namespace std;
+
+const int N = 100010;
+int head, e[N], ne[N], idx;
+
+// 初始化
+void init() {
+    head = -1;
+    idx = 0;
+}
+
+// 在头部插入一个数x
+void add_to_head(int x) {
+    e[idx] = x;
+    ne[idx] = head;
+    head = idx++;
+}
+
+// 将x插入下标是k的点后面
+void add(int k, int x) {
+    e[idx] = x;
+    ne[idx] = ne[k];
+    ne[k] = idx++;
+}
+
+// 将下标是k的点后面的点删除
+void remove(int k) {
+    ne[k] = ne[ne[k]];
+}
+
+int main() {
+    init();
+    
+    // 执行一些操作
+    add_to_head(3);  // 链表变为 3
+    add_to_head(2);  // 链表变为 2->3
+    add_to_head(1);  // 链表变为 1->2->3
+    
+    add(0, 4);       // 在下标为0的节点后插入4，链表变为 1->4->2->3
+    remove(1);       // 删除下标为1的节点后的节点，链表变为 1->4->3
+    
+    // 遍历链表
+    for (int i = head; i != -1; i = ne[i]) {
+        cout << e[i] << " ";
+    }
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>栈</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 栈的实现
+#include<iostream>
+using namespace std;
+
+const int N = 100010;
+int stk[N], tt;
+
+// 初始化栈
+void init() {
+    tt = 0;
+}
+
+// 向栈顶插入一个数
+void push(int x) {
+    stk[++tt] = x;
+}
+
+// 从栈顶弹出一个数
+void pop() {
+    tt--;
+}
+
+// 栈顶的值
+int top() {
+    return stk[tt];
+}
+
+// 判断栈是否为空
+bool empty() {
+    return tt == 0;
+}
+
+int main() {
+    init();
+    
+    push(1);
+    push(2);
+    push(3);
+    
+    while (!empty()) {
+        cout << top() << " ";
+        pop();
+    }
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>队列</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 队列的实现
+#include<iostream>
+using namespace std;
+
+const int N = 100010;
+int q[N], hh, tt;
+
+// 初始化队列
+void init() {
+    hh = 0;
+    tt = -1;
+}
+
+// 向队尾插入一个数
+void push(int x) {
+    q[++tt] = x;
+}
+
+// 从队头弹出一个数
+void pop() {
+    hh++;
+}
+
+// 队头的值
+int front() {
+    return q[hh];
+}
+
+// 判断队列是否为空
+bool empty() {
+    return hh > tt;
+}
+
+int main() {
+    init();
+    
+    push(1);
+    push(2);
+    push(3);
+    
+    while (!empty()) {
+        cout << front() << " ";
+        pop();
+    }
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>KMP算法</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// KMP算法实现
+#include<iostream>
+using namespace std;
+
+const int N = 100010, M = 1000010;
+int n, m;
+char p[N], s[M];
+int ne[N];
+
+int main() {
+    cin >> n >> p+1 >> m >> s+1;
+    
+    // 求next数组
+    for(int i = 2, j = 0; i <= n; i++) {
+        while(j && p[i] != p[j+1]) j = ne[j];
+        if(p[i] == p[j+1]) j++;
+        ne[i] = j;
+    }
+    
+    // KMP匹配
+    for(int i = 1, j = 0; i <= m; i++) {
+        while(j && s[i] != p[j+1]) j = ne[j];
+        if(s[i] == p[j+1]) j++;
+        if(j == n) {
+            printf("%d ", i - n);
+            j = ne[j];
+        }
+    }
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 庄宇哲的算法博客. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

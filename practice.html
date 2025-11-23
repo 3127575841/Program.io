@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线练习 - 算法学习网站</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .practice-container {
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .problem-card {
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .easy {
+            background-color: #e1f5e1;
+            color: #28a745;
+        }
+
+        .medium {
+            background-color: #fff3cd;
+            color: #ffc107;
+        }
+
+        .hard {
+            background-color: #f8d7da;
+            color: #dc3545;
+        }
+
+        .tags {
+            margin: 1rem 0;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">AlgoLearn</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="algorithms.html">算法课程</a></li>
+                <li><a href="practice.html" class="active">在线练习</a></li>
+                <li><a href="exam.html">模拟考试</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="content">
+        <h1 style="text-align: center; margin: 80px 0 40px;">在线练习</h1>
+
+        <!-- 简单难度 -->
+        <section id="easy" class="practice-container">
+            <h2>简单难度</h2>
+                <div class="problem-card">
+                    <span class="difficulty easy">力扣题库</span>
+                    <h3>LeetCode 热门题目</h3>
+                    <p>包含经典算法题目，支持多种编程语言提交，并提供详细题解和讨论区。适合系统学习算法。</p>
+                    <div class="tags">
+                        <span class="tag">全球知名</span>
+                        <span class="tag">中英双语</span>
+                    </div>
+                    <a href="https://leetcode.cn" target="_blank" class="btn">前往力扣</a>
+                </div>
+
+                <div class="problem-card">
+                    <span class="difficulty easy">洛谷平台</span>
+                    <h3>洛谷训练题库</h3>
+                    <p>国内最大的信息学在线评测平台，包含大量优质的算法题目和编程练习。</p>
+                    <div class="tags">
+                        <span class="tag">OI/ICPC</span>
+                        <span class="tag">算法训练</span>
+                    </div>
+                    <a href="https://www.luogu.com.cn" target="_blank" class="btn">前往洛谷</a>
+                </div>
+        </section>
+
+        <!-- 中等难度 -->
+        <section id="medium" class="practice-container">
+            <h2>中等难度</h2>
+                <div class="problem-card">
+                    <span class="difficulty medium">CodeForces</span>
+                    <h3>CF 比赛训练</h3>
+                    <p>全球最活跃的算法竞赛平台，提供高质量的比赛和练习题目。适合想提高竞赛水平的程序员。</p>
+                    <div class="tags">
+                        <span class="tag">竞赛导向</span>
+                        <span class="tag">实时榜单</span>
+                    </div>
+                    <a href="https://codeforces.com" target="_blank" class="btn">前往CF</a>
+                </div>
+
+                <div class="problem-card">
+                    <span class="difficulty medium">牛客网</span>
+                    <h3>牛客竞赛题库</h3>
+                    <p>国内知名的IT题库和编程学习平台，有丰富的算法题目和面试题资源。</p>
+                    <div class="tags">
+                        <span class="tag">面试刷题</span>
+                        <span class="tag">竞赛训练</span>
+                    </div>
+                    <a href="https://www.nowcoder.com" target="_blank" class="btn">前往牛客</a>
+                </div>
+        </section>
+
+        <!-- 困难难度 -->
+        <section id="hard" class="practice-container">
+            <h2>困难难度</h2>
+                <div class="problem-card">
+                    <span class="difficulty hard">AtCoder</span>
+                    <h3>AtCoder 比赛</h3>
+                    <p>来自日本的高质量算法竞赛平台，题目质量高，难度梯度合理，适合进阶学习。</p>
+                    <div class="tags">
+                        <span class="tag">比赛丰富</span>
+                        <span class="tag">难度适中</span>
+                    </div>
+                    <a href="https://atcoder.jp" target="_blank" class="btn">前往AtCoder</a>
+                </div>
+
+                <div class="problem-card">
+                    <span class="difficulty hard">SPOJ</span>
+                    <h3>SPOJ 练习平台</h3>
+                    <p>一个历史悠久的全球性算法题库，包含大量经典题目和竞赛真题。</p>
+                    <div class="tags">
+                        <span class="tag">经典题目</span>
+                        <span class="tag">多语言支持</span>
+                        <span class="tag">评测稳定</span>
+                    </div>
+                    <a href="https://www.spoj.com" target="_blank" class="btn">前往SPOJ</a>
+                </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>致力于为编程爱好者提供优质的算法学习平台</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="algorithms.html">算法课程</a></li>
+                    <li><a href="practice.html">在线练习</a></li>
+                    <li><a href="exam.html">模拟考试</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>关注我们</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">微信</a>
+                    <a href="#" class="social-icon">QQ</a>
+                    <a href="#" class="social-icon">微博</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 算法学习平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

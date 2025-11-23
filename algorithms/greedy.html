@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贪心算法 - 庄宇哲的算法博客</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .algorithm-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .algorithm-section {
+            margin-bottom: 40px;
+        }
+        
+        .algorithm-section h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .code-block {
+            background-color: #000000;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            margin: 15px 0;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><a href="../index.html">庄宇哲的算法博客</a></div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">返回首页</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="algorithm-content">
+        <h1>贪心算法</h1>
+
+        <section class="algorithm-section">
+            <h2>区间问题</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 区间选点
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+const int N = 100010;
+
+int n;
+struct Range
+{
+    int l, r;
+    bool operator< (const Range &W)const
+    {
+        return r < W.r;
+    }
+}range[N];
+
+int main()
+{
+    scanf("%d", &n);
+    for(int i = 0; i < n; i++)
+    {
+        int l, r;
+        scanf("%d%d", &l, &r);
+        range[i] = {l, r};
+    }
+    
+    sort(range, range + n);
+    
+    int res = 0, ed = -2e9;
+    for(int i = 0; i < n; i++)
+        if(range[i].l > ed)
+        {
+            res++;
+            ed = range[i].r;
+        }
+    
+    printf("%d\n", res);
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>背包问题</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 分数背包问题
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+const int N = 100010;
+
+int n;
+struct Item
+{
+    int w, v;
+    bool operator< (const Item &W)const
+    {
+        return v * W.w > w * W.v;
+    }
+}item[N];
+
+int main()
+{
+    int n, m;
+    scanf("%d%d", &n, &m);
+    for(int i = 0; i < n; i++)
+    {
+        int w, v;
+        scanf("%d%d", &w, &v);
+        item[i] = {w, v};
+    }
+    
+    sort(item, item + n);
+    
+    double res = 0;
+    for(int i = 0; i < n; i++)
+        if(m >= item[i].w)
+        {
+            res += item[i].v;
+            m -= item[i].w;
+        }
+        else
+        {
+            res += item[i].v * 1.0 * m / item[i].w;
+            break;
+        }
+    
+    printf("%.2lf\n", res);
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>哈夫曼编码</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 哈夫曼树
+#include<iostream>
+#include<queue>
+using namespace std;
+
+int main()
+{
+    priority_queue<int, vector<int>, greater<int>> heap;
+    
+    int n;
+    scanf("%d", &n);
+    while(n--)
+    {
+        int x;
+        scanf("%d", &x);
+        heap.push(x);
+    }
+    
+    int res = 0;
+    while(heap.size() > 1)
+    {
+        int a = heap.top(); heap.pop();
+        int b = heap.top(); heap.pop();
+        res += a + b;
+        heap.push(a + b);
+    }
+    
+    printf("%d\n", res);
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 庄宇哲的算法博客. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

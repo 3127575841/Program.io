@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="算法复杂度分析详解 - 时间复杂度、空间复杂度、渐进分析等基础理论">
+    <meta name="keywords" content="算法复杂度,时间复杂度,空间复杂度,大O表示法,渐进分析">
+    <title>算法复杂度分析 | AlgoLearn</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .algorithm-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .algorithm-section {
+            margin-bottom: 40px;
+        }
+        
+        .algorithm-section h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .code-block {
+            background-color: #000000;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            margin: 15px 0;
+            color: #FFFFFF;
+        }
+        
+        .complexity-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .complexity-table th, .complexity-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .complexity-table th {
+            background-color: #f5f5f5;
+        }
+        
+        .algorithm-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .algorithm-nav a {
+            padding: 8px 15px;
+            background-color: #f5f5f5;
+            text-decoration: none;
+            color: var(--text-color);
+            border-radius: 4px;
+        }
+        
+        .algorithm-nav a:hover, .algorithm-nav a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .complexity-chart {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            display: block;
+        }
+    </style>
+</head>
+<body class="no-transition">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><a href="../index.html">庄宇哲的算法博客</a></div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">返回首页</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 内容区块 -->
+    <main class="content" style="margin-top: 80px;">
+        <div class="algorithm-nav">
+            <a href="../algorithms.html">返回课程列表</a>
+            <a href="sort.html">排序算法</a>
+            <a href="search.html">搜索算法</a>
+            <a href="dynamic.html">动态规划</a>
+            <a href="graph.html">图论算法</a>
+            <a href="string.html">字符串算法</a>
+            <a href="ml.html">机器学习算法</a>
+            <a href="greedy.html">贪心算法</a>
+            <a href="divide.html">分治算法</a>
+            <a href="complexity.html" class="active">算法复杂度分析</a>
+        </div>
+
+        <div class="algorithm-content">
+            <h1>算法复杂度分析详解</h1>
+            
+            <section class="algorithm-section">
+                <h2>算法复杂度概述</h2>
+                <p>算法复杂度是衡量算法效率的重要指标，它描述了算法运行时间和空间消耗与输入规模之间的关系。理解算法复杂度对于选择合适的算法解决问题至关重要。</p>
+                
+                <p>算法复杂度分析主要关注两个方面：</p>
+                <ul>
+                    <li><strong>时间复杂度</strong>：算法执行所需的时间与输入规模的关系</li>
+                    <li><strong>空间复杂度</strong>：算法执行所需的额外空间与输入规模的关系</li>
+                </ul>
+                
+                <p>在分析算法复杂度时，我们通常关注：</p>
+                <ul>
+                    <li><strong>最坏情况复杂度</strong>：算法在最不利输入下的性能</li>
+                    <li><strong>平均情况复杂度</strong>：算法在随机输入下的期望性能</li>
+                    <li><strong>最好情况复杂度</strong>：算法在最有利输入下的性能</li>
+                </ul>
+                
+                <p>在实际应用中，我们通常更关注最坏情况复杂度，因为它提供了算法性能的上界保证。</p>
+            </section>
+            
+            <section class="algorithm-section">
+                <h2>渐进表示法</h2>
+                <p>渐进表示法用于描述算法复杂度的增长率，忽略常数因子和低阶项，只关注算法在输入规模足够大时的行为。常用的渐进表示法包括：</p>
+                
+                <ul>
+                    <li><strong>大O表示法（O）</strong>：表示算法复杂度的上界</li>
+                    <li><strong>大Omega表示法（Ω）</strong>：表示算法复杂度的下界</li>
+                    <li><strong>大Theta表示法（Θ）</strong>：表示算法复杂度的紧确界（上界和下界相同）</li>
+                </ul>
+                
+                <p>在实际分析中，我们最常使用大O表示法，因为它提供了算法在最坏情况下的性能保证。</p>
+                
+                <p>常见的时间复杂度（按效率从高到低排序）：</p>
+                <ul>
+                    <li><strong>O(1)</strong>：常数时间复杂度，与输入规模无关</li>
+                    <li><strong>O(log n)</strong>：对数时间复杂度，如二分查找</li>
+                    <li><strong>O(n)</strong>：线性时间复杂度，如线性搜索</li>
+                    <li><strong>O(n log n)</strong>：线性对数时间复杂度，如归并排序</li>
+                    <li><strong>O(n²)</strong>：平方时间复杂度，如冒泡排序</li>
+                    <li><strong>O(n³)</strong>：立方时间复杂度，如某些矩阵运算</li>
+                    <li><strong>O(2ⁿ)</strong>：指数时间复杂度，如穷举法</li>
+                    <li><strong>O(n!)</strong>：阶乘时间复杂度，如旅行商问题的暴力解法</li>
+                </ul>
+                
+                <div class="complexity-chart">
+                    <img src="../images/complexity_chart.jpg" alt="不同时间复杂度的增长率对比图" width="600" height="400">
+                </div>
+            </section>
+            
+            <section class="algorithm-section">
+                <h2>时间复杂度分析</h2>
+                <p>时间复杂度分析的目标是估计算法执行所需的操作次数与输入规模的关系。分析时，我们通常遵循以下步骤：</p>
+                
+                <ol>
+                    <li>确定输入规模（通常用n表示）</li>
+                    <li>找出算法中的基本操作（最频繁执行的操作）</li>
+                    <li>计算基本操作的执行次数与输入规模的关系</li>
+                    <li>使用大O表示法表示时间复杂度</li>
+                </ol>
+                
+                <p>下面是几个时间复杂度分析的例子：</p>
+                
+                <h3>常数时间复杂度 O(1)</h3>
+                <div class="code-block">
+<pre>
+function getFirstElement(arr) {
+    return arr[0];  // 只执行一次操作，与输入规模无关
+}
+</pre>
+                </div>
+                
+                <h3>线性时间复杂度 O(n)</h3>
+                <div class="code-block">
+<pre>
+function sum(arr) {
+    let total = 0;
+    for (let i = 0; i < arr.length; i++) {  // 循环执行n次
+        total += arr[i];                    // 每次循环执行一次操作
+    }
+    return total;
+}
+</pre>
+                </div>
+                
+                <h3>平方时间复杂度 O(n²)</h3>
+                <div class="code-block">
+<pre>
+function bubbleSort(arr) {
+    const n = arr.length;
+    for (let i = 0; i < n; i++) {           // 外层循环执行n次
+        for (let j = 0; j < n - i - 1; j++) {  // 内层循环执行n-i-1次
+            if (arr[j] > arr[j + 1]) {
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+            }
+        }
+    }
+    return arr;
+}
+</pre>
+                </div>
+                
+                <h3>对数时间复杂度 O(log n)</h3>
+                <div class="code-block">
+<pre>
+function binarySearch(arr, target) {
+    let left = 0;
+    let right = arr.length - 1;
+    
+    while (left <= right) {                  // 每次循环将搜索范围减半
+        const mid = Math.floor((left + right) / 2);
+        
+        if (arr[mid] === target) {
+            return mid;
+        }
+        
+        if (arr[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    
+    return -1;
+}
+</pre>
+                </div>
+            </section>
+            
+            <section class="algorithm-section">
+                <h2>空间复杂度分析</h2>
+                <p>空间复杂度分析的目标是估计算法执行所需的额外空间（除输入外）与输入规模的关系。分析时，我们关注：</p>
+                
+                <ul>
+                    <li>算法使用的变量、数据结构所占用的空间</li>
+                    <li>递归调用占用的栈空间</li>
+                </ul>
+                
+                <p>下面是几个空间复杂度分析的例子：</p>
+                
+                <h3>常数空间复杂度 O(1)</h3>
+                <div class="code-block">
+<pre>
+function findMax(arr) {
+    let max = arr[0];                     // 使用一个变量，与输入规模无关
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    return max;
+}
+</pre>
+                </div>
+                
+                <h3>线性空间复杂度 O(n)</h3>
+                <div class="code-block">
+<pre>
+function copyArray(arr) {
+    const copy = [];                      // 创建一个新数组，大小与输入规模成正比
+    for (let i = 0; i < arr.length; i++) {
+        copy[i] = arr[i];
+    }
+    return copy;
+}
+</pre>
+                </div>
+                
+                <h3>递归算法的空间复杂度</h3>
+                <div class="code-block">
+<pre>
+function factorial(n) {
+    if (n <= 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);          // 递归调用栈深度为n，空间复杂度为O(n)
+}
+</pre>
+                </div>
+            </section>
+            
+            <section class="algorithm-section">
+                <h2>常见算法的复杂度</h2>
+                <p>下表总结了一些常见算法的时间和空间复杂度：</p>
+                
+                <table class="complexity-table">
+                    <thead>
+                        <tr>
+                            <th>算法</th>
+                            <th>最好时间复杂度</th>
+                            <th>平均时间复杂度</th>
+                            <th>最坏时间复杂度</th>
+                            <th>空间复杂度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>冒泡排序</td>
+                            <td>O(n)</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>选择排序</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>插入排序</td>
+                            <td>O(n)</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>归并排序</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n)</td>
+                        </tr>
+                        <tr>
+                            <td>快速排序</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n²)</td>
+                            <td>O(log n)</td>
+                        </tr>
+                        <tr>
+                            <td>堆排序</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>计数排序</td>
+                            <td>O(n + k)</td>
+                            <td>O(n + k)</td>
+                            <td>O(n + k)</td>
+                            <td>O(n + k)</td>
+                        </tr>
+                        <tr>
+                            <td>线性搜索</td>
+                            <td>O(1)</td>
+                            <td>O(n)</td>
+                            <td>O(n)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>二分查找</td>
+                            <td>O(1)</td>
+                            <td>O(log n)</td>
+                            <td>O(log n)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>深度优先搜索</td>
+                            <td>O(V + E)</td>
+                            <td>O(V + E)</td>
+                            <td>O(V + E)</td>
+                            <td>O(V)</td>
+                        </tr>
+                        <tr>
+                            <td>广度优先搜索</td>
+                            <td>O(V + E)</td>
+                            <td>O(V + E)</td>
+                            <td>O(V + E)</td>
+                            <td>O(V)</td>
+                        </tr>
+                        <tr>
+                            <td>Dijkstra算法</td>
+                            <td>O(V² + E)</td>
+                            <td>O(V² + E)</td>
+                            <td>O(V² + E)</td>
+                            <td>O(V)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p>注：V表示顶点数，E表示边数，k表示计数排序中的取值范围。</p>
+            </section>
+            
+            <section class="algorithm-section">
+                <h2>复杂度分析的技巧</h2>
+                <p>在分析算法复杂度时，可以使用以下技巧：</p>
+                
+                <h3>1. 循环分析</h3>
+                <p>对于嵌套循环，内层循环的时间复杂度乘以外层循环的执行次数：</p>
+                <div class="code-block">
+<pre>
+// 两层循环，时间复杂度为O(n²)
+for (let i = 0; i < n; i++) {      // 执行n次
+    for (let j = 0; j < n; j++) {  // 每次执行n次
+        // 某些操作
+    }
+}
+
+// 不同范围的嵌套循环，时间复杂度为O(n·m)
+for (let i = 0; i < n; i++) {      // 执行n次
+    for (let j = 0; j < m; j++) {  // 每次执行m次
+        // 某些操作
+    }
+}
+</pre>
+                </div>
+                
+                <h3>2. 递归分析</h3>
+                <p>对于递归算法，可以使用递推关系来分析时间复杂度：</p>
+                <div class="code-block">
+<pre>
+// 递归函数，时间复杂度为O(2ⁿ)
+function fibonacci(n) {
+    if (n <= 1) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);  // 每次调用产生两个递归调用
+}
+
+// 递归函数，时间复杂度为O(log n)
+function binarySearch(arr, target, left, right) {
+    if (left > right) return -1;
+    
+    const mid = Math.floor((left + right) / 2);
+    
+    if (arr[mid] === target) return mid;
+    
+    if (arr[mid] > target) {
+        return binarySearch(arr, target, left, mid - 1);  // 每次递归将问题规模减半
+    } else {
+        return binarySearch(arr, target, mid + 1, right);
+    }
+}
+</pre>
+                </div>
+                
+                <h3>3. 主定理</h3>
+                <p>对于形如T(n) = aT(n/b) + f(n)的递归算法，可以使用主定理（Master Theorem）来分析时间复杂度：</p>
+                <ul>
+                    <li>如果f(n) = O(n^c)且c &lt; log<sub>b</sub>a，则T(n) = Θ(n^log<sub>b</sub>a)</li>
+                    <li>如果f(n) = Θ(n^c)且c = log<sub>b</sub>a，则T(n) = Θ(n^c log n)</li>
+                    <li>如果f(n) = Ω(n^c)且c &gt; log<sub>b</sub>a，则T(n) = Θ(f(n))</li>
+                </ul>
+            </section>
+            
+            <section class="algorithm-section">
+                <h2>算法效率的权衡</h2>
+                <p>在实际应用中，我们需要根据具体情况在时间复杂度和空间复杂度之间做出权衡：</p>
+                
+                <ul>
+                    <li><strong>时间换空间</strong>：使用额外的空间来减少计算时间，如哈希表、缓存等</li>
+                    <li><strong>空间换时间</strong>：通过增加计算来减少空间使用，如重新计算而不是存储中间结果</li>
+                </ul>
+                
+                <p>选择合适的算法应考虑以下因素：</p>
+                <ul>
+                    <li>输入规模的大小</li>
+                    <li>可用的计算资源（CPU、内存）</li>
+                    <li>对时间和空间效率的要求</li>
+                    <li>代码的可读性和可维护性</li>
+                </ul>
+                
+                <p>在某些情况下，常数因子和低阶项也可能对实际性能产生重要影响，特别是在输入规模较小时。</p>
+            </section>
+            
+            <section class="algorithm-section">
+                <h2>总结与练习</h2>
+                <p>算法复杂度分析是评估和比较算法效率的重要工具。通过理解时间复杂度和空间复杂度，我们可以选择合适的算法来解决特定问题。</p>
+                
+                <p>建议练习：</p>
+                <ul>
+                    <li>分析不同排序算法的时间和空间复杂度</li>
+                    <li>比较递归和迭代实现的复杂度差异</li>
+                    <li>分析常见数据结构（数组、链表、树、图）操作的复杂度</li>
+                    <li>使用主定理分析分治算法的复杂度</li>
+                    <li>分析自己编写的算法的复杂度</li>
+                </ul>
+                <a href="../practice.html#complexity" class="btn">算法复杂度练习题</a>
+            </section>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>致力于为编程爱好者提供优质的算法学习平台</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="../algorithms.html">算法课程</a></li>
+                    <li><a href="../practice.html">在线练习</a></li>
+                    <li><a href="../exam.html">模拟考试</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>关注我们</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon" aria-label="关注我们的微信">微信</a>
+                    <a href="#" class="social-icon" aria-label="关注我们的QQ">QQ</a>
+                    <a href="#" class="social-icon" aria-label="关注我们的微博">微博</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 算法学习平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/script.js" defer></script>
+</body>
+</html> 

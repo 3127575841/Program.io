@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索算法 - 庄宇哲的算法博客</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .algorithm-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .algorithm-section {
+            margin-bottom: 40px;
+        }
+        
+        .algorithm-section h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .code-block {
+            background-color: #000000;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            margin: 15px 0;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><a href="../index.html">庄宇哲的算法博客</a></div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">返回首页</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="algorithm-content">
+        <h1>搜索算法</h1>
+
+        <section class="algorithm-section">
+            <h2>二分查找</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 二分查找
+#include<iostream>
+using namespace std;
+
+const int N = 100010;
+int a[N];
+
+// 查找第一个>=x的位置
+int lower_bound(int a[], int l, int r, int x)
+{
+    while (l < r)
+    {
+        int mid = l + r >> 1;
+        if (a[mid] >= x) r = mid;
+        else l = mid + 1;
+    }
+    return l;
+}
+
+// 查找第一个>x的位置
+int upper_bound(int a[], int l, int r, int x)
+{
+    while (l < r)
+    {
+        int mid = l + r >> 1;
+        if (a[mid] > x) r = mid;
+        else l = mid + 1;
+    }
+    return l;
+}
+
+int main()
+{
+    int n, m;
+    scanf("%d%d", &n, &m);
+    for (int i = 0; i < n; i++) scanf("%d", &a[i]);
+    
+    while (m--)
+    {
+        int x;
+        scanf("%d", &x);
+        int l = lower_bound(a, 0, n, x);
+        if (l < n && a[l] == x) 
+            printf("找到了，位置为%d\n", l);
+        else 
+            printf("没找到\n");
+    }
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>深度优先搜索(DFS)</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 深度优先搜索 - 迷宫问题
+#include<iostream>
+#include<cstring>
+using namespace std;
+
+const int N = 110;
+int n, m;
+int g[N][N];
+int vis[N][N];
+int dx[4] = {-1, 0, 1, 0}, dy[4] = {0, 1, 0, -1};
+
+bool dfs(int x, int y)
+{
+    if (x == n - 1 && y == m - 1) return true; // 到达终点
+    
+    vis[x][y] = true; // 标记已访问
+    
+    for (int i = 0; i < 4; i++)
+    {
+        int nx = x + dx[i], ny = y + dy[i];
+        if (nx >= 0 && nx < n && ny >= 0 && ny < m && g[nx][ny] == 0 && !vis[nx][ny])
+        {
+            if (dfs(nx, ny)) return true;
+        }
+    }
+    
+    return false;
+}
+
+int main()
+{
+    scanf("%d%d", &n, &m);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            scanf("%d", &g[i][j]);
+    
+    memset(vis, 0, sizeof vis);
+    
+    if (dfs(0, 0)) puts("可以到达终点");
+    else puts("不能到达终点");
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>广度优先搜索(BFS)</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 广度优先搜索 - 最短路径
+#include<iostream>
+#include<queue>
+#include<cstring>
+using namespace std;
+
+const int N = 110;
+int n, m;
+int g[N][N];
+int dist[N][N];
+int dx[4] = {-1, 0, 1, 0}, dy[4] = {0, 1, 0, -1};
+
+struct Point {
+    int x, y;
+};
+
+int bfs(int sx, int sy)
+{
+    queue<Point> q;
+    memset(dist, -1, sizeof dist);
+    
+    dist[sx][sy] = 0;
+    q.push({sx, sy});
+    
+    while (q.size())
+    {
+        auto t = q.front();
+        q.pop();
+        
+        for (int i = 0; i < 4; i++)
+        {
+            int nx = t.x + dx[i], ny = t.y + dy[i];
+            if (nx >= 0 && nx < n && ny >= 0 && ny < m && g[nx][ny] == 0 && dist[nx][ny] == -1)
+            {
+                dist[nx][ny] = dist[t.x][t.y] + 1;
+                q.push({nx, ny});
+            }
+        }
+    }
+    
+    return dist[n-1][m-1]; // 返回终点的距离
+}
+
+int main()
+{
+    scanf("%d%d", &n, &m);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            scanf("%d", &g[i][j]);
+    
+    int res = bfs(0, 0);
+    if (res == -1) puts("不能到达终点");
+    else printf("最短路径长度：%d\n", res);
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>双向BFS</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 双向BFS - 最短路径
+#include<iostream>
+#include<queue>
+#include<unordered_map>
+using namespace std;
+
+string bfs(string start, string end)
+{
+    // 如果起点等于终点，直接返回
+    if (start == end) return start;
+    
+    // 初始化队列和距离记录
+    queue<string> q1, q2;
+    unordered_map<string, int> d1, d2;
+    unordered_map<string, string> path;
+    
+    q1.push(start); d1[start] = 0;
+    q2.push(end); d2[end] = 0;
+    
+    // 双向BFS
+    while (q1.size() && q2.size())
+    {
+        // 扩展点数更少的方向
+        if (q1.size() <= q2.size())
+        {
+            string t = q1.front(); q1.pop();
+            
+            // 遍历所有可能的下一步状态
+            for (int i = 0; i < t.size(); i++)
+            {
+                string nt = t;
+                char c = nt[i];
+                
+                // 尝试改变当前位置的字符
+                for (char j = '0'; j <= '9'; j++)
+                {
+                    if (j == c) continue;
+                    nt[i] = j;
+                    
+                    // 如果已经访问过，跳过
+                    if (d1.count(nt)) continue;
+                    
+                    // 记录路径和距离
+                    d1[nt] = d1[t] + 1;
+                    path[nt] = t;
+                    q1.push(nt);
+                    
+                    // 如果与另一方向相遇，返回路径
+                    if (d2.count(nt))
+                    {
+                        // 构建路径并返回
+                        string res = nt;
+                        while (res != start)
+                        {
+                            res = path[res] + " -> " + res;
+                            res = path[res];
+                        }
+                        return res + " -> " + nt;
+                    }
+                }
+            }
+        }
+        else
+        {
+            // 从终点方向扩展的代码省略，类似上面
+        }
+    }
+    
+    return "无解";
+}
+
+int main()
+{
+    string start, end;
+    cin >> start >> end;
+    
+    string res = bfs(start, end);
+    cout << res << endl;
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 庄宇哲的算法博客. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="庄宇哲的算法博客 - 分享算法知识与编程技巧">
+    <meta name="keywords" content="算法博客,算法学习,编程算法,个人博客">
+    <title>庄宇哲的算法博客</title>
+    <style>
+        :root {
+            --primary-color: #4A90E2;    /* 主色调-蓝色 */
+            --secondary-color: #2ECC71;   /* 辅助色-绿色 */
+            --accent-color: #E74C3C;      /* 强调色-红色 */
+            --text-color: #2C3E50;
+            --text-light: #666;
+            --bg-color: #fff;
+            --bg-light: #f8f9fa;
+            --shadow: 0 2px 5px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-color);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Banner轮播图样式 */
+        .banner {
+            margin-top: 70px;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .slide-content h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .slide-content p {
+            font-size: 1.5rem;
+        }
+
+        /* 内容区块样式 */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        /* 算法课程卡片 */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--bg-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-content h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .card-content p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* 联系表单样式 */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        /* 页脚样式 */
+        .footer {
+            background: var(--text-color);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+
+        .social-icons a:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* 页脚联系表单样式 */
+        .footer .contact-form {
+            background: transparent;
+            padding: 0;
+        }
+
+        .footer .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .footer .form-group input,
+        .footer .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .footer .form-group input::placeholder,
+        .footer .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .footer .btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .footer .btn:hover {
+            background: var(--secondary-color);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .nav-menu {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+            }
+
+            .social-icons {
+                justify-content: center;
+            }
+
+            .footer .contact-form {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">庄宇哲的算法博客</div>
+            <ul class="nav-menu">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#algorithms">算法课程</a></li>
+                <li><a href="#platforms">算法平台</a></li>
+                </ul>
+        </div>
+    </nav>
+
+    <!-- Banner轮播图 -->
+    <section id="home" class="banner">
+        <div class="slide active" style="background-image: url('images/banner1.jpg')">
+                <div class="slide-content">
+                <h2>探索算法的奥秘</h2>
+                <p>让我们一起学习算法，提升编程能力</p>
+            </div>
+                </div>
+        <div class="slide" style="background-image: url('images/banner2.jpg')">
+                <div class="slide-content">
+                <h2>系统的算法学习</h2>
+                <p>从基础到进阶，循序渐进</p>
+            </div>
+            </div>
+        <div class="slide" style="background-image: url('images/banner3.jpg')">
+            <div class="slide-content">
+                <h2>实践出真知</h2>
+                <p>大量练习题，提升实战能力</p>
+            </div>
+        </div>
+    </section>
+
+        <!-- 算法课程 -->
+    <section id="algorithms" class="section">
+        <div class="container">
+            <h2 class="section-title">算法</h2>
+            <p style="text-align: center; font-size: 0.9rem; color: var(--text-light); margin-top: -2rem; margin-bottom: 2rem;">（个人对所学算法做了小幅度修改方便理解，如果看不懂请勿使用，图片是网上找的，位置可能不对，因为找不到对应的了）</p>
+            <div class="card-container">
+                <div class="card">
+                    <img src="images/sort.jpg" alt="排序算法" loading="lazy">
+                    <div class="card-content">
+                    <h3>排序算法</h3>
+                        <p>归并、快速、堆排序等经典排序算法详解。</p>
+                        <a href="algorithms/sort.html" class="btn">进入课程</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="images/search.jpg" alt="搜索算法" loading="lazy">
+                    <div class="card-content">
+                    <h3>搜索算法</h3>
+                        <p>二分查找、DFS、BFS等高效搜索方法。</p>
+                        <a href="algorithms/search.html" class="btn">进入课程</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="images/dynamic.jpg" alt="动态规划" loading="lazy">
+                    <div class="card-content">
+                    <h3>动态规划</h3>
+                        <p>从入门到精通的动态规划算法讲解。</p>
+                        <a href="algorithms/dynamic.html" class="btn">进入课程</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="images/graph.jpg" alt="图论算法" loading="lazy">
+                    <div class="card-content">
+                    <h3>图论算法</h3>
+                        <p>最短路径、最小生成树、网络流等图论算法详解。</p>
+                        <a href="algorithms/graph.html" class="btn">进入课程</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="images/string.jpg" alt="字符串算法" loading="lazy">
+                    <div class="card-content">
+                    <h3>字符串算法</h3>
+                        <p>KMP、Trie、后缀数组等字符串处理算法。</p>
+                        <a href="algorithms/string.html" class="btn">进入课程</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="images/ml.jpg" alt="数论算法" loading="lazy">
+                    <div class="card-content">
+                    <h3>数论算法</h3>
+                        <p>素数筛、欧几里得、模运算等数论算法。</p>
+                        <a href="algorithms/ml.html" class="btn">进入课程</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="images/greedy.jpg" alt="贪心算法" loading="lazy">
+                    <div class="card-content">
+                    <h3>贪心算法</h3>
+                        <p>贪心策略、证明与应用，解决最优化问题。</p>
+                        <a href="algorithms/greedy.html" class="btn">进入课程</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="images/divide.jpg" alt="分治算法" loading="lazy">
+                    <div class="card-content">
+                    <h3>分治算法</h3>
+                        <p>分治思想、归并排序、快速排序等经典算法。</p>
+                        <a href="algorithms/divide.html" class="btn">进入课程</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="images/complexity.jpg" alt="算法复杂度分析" loading="lazy">
+                    <div class="card-content">
+                    <h3>算法复杂度分析</h3>
+                        <p>时间复杂度、空间复杂度、渐进分析等基础理论。</p>
+                        <a href="algorithms/complexity.html" class="btn">进入课程</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 算法平台导航 -->
+        <section id="platforms" class="section" style="background-color: var(--bg-light);">
+            <div class="container">
+                <h2 class="section-title">算法学习平台</h2>
+                <p style="text-align: center; margin-bottom: 2rem;">以下是一些优质的算法学习平台，可以帮助你更好地提升算法能力</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>力扣 LeetCode</h3>
+                            <p>全球著名的技术面试和算法学习平台，拥有丰富的算法题库</p>
+                            <a href="https://leetcode.cn" target="_blank" class="btn">访问平台</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>洛谷 Luogu</h3>
+                            <p>中国最大的信息学竞赛在线评测系统之一，题目难度梯度合理</p>
+                            <a href="https://www.luogu.com.cn" target="_blank" class="btn">访问平台</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>CodeForces</h3>
+                            <p>俄罗斯著名的编程竞赛网站，定期举办高质量比赛</p>
+                            <a href="https://codeforces.com" target="_blank" class="btn">访问平台</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>蓝桥杯</h3>
+                            <p>全国性的IT学科竞赛，面向高校开展，培养程序设计和创新能力</p>
+                            <a href="https://www.lanqiao.cn/cup/" target="_blank" class="btn">访问平台</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>牛客网</h3>
+                            <p>国内IT笔试/面试题库，包含各大公司真题和模拟题</p>
+                            <a href="https://www.nowcoder.com" target="_blank" class="btn">访问平台</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>VJudge</h3>
+                            <p>整合了多个OJ平台的题库，方便用户在一个平台刷各种题目</p>
+                            <a href="https://vjudge.net/group/lynu24ACM" target="_blank" class="btn">访问平台</a>
+                </div>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 在线练习模块已删除 -->
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于博客</h3>
+                    <p>这是我的算法学习博客，致力于分享算法知识和编程技巧。</p>
+                    <p style="margin-top: 1rem; color: #ccc;">本站不放联系方式</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#algorithms">算法课程</a></li>
+                        <li><a href="#platforms">算法平台</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>网站声明</h3>
+                    <p style="color: #ccc; font-size: 0.9rem; line-height: 1.6;">
+                        声明：本网站为个人博客，方便算法初学者使用，部分代码为本人做过修改的（方便本人使用，很多代码遗失了，所以在这里找不到的自己去找，勿喷！！！！！），如果看不懂可自己寻找途径理解或学别人的，网页不完善，勿喷！！！！！！！
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 轮播图功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                currentSlide = (index + slides.length) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+
+            // 自动轮播
+            setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 5000);
+
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

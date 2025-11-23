@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="算法学习网站，提供全面的算法学习资源、在线练习和模拟考试">
+    <meta name="keywords" content="算法学习,算法课程,排序算法,搜索算法,动态规划,在线练习">
+    <title>算法课程 | AlgoLearn</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .course-category {
+            margin-bottom: 3rem;
+        }
+        
+        .course-category h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="no-transition">
+    <!-- 导航栏 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>AlgoLearn</h1>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">返回首页</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 内容区块 -->
+    <main class="content" style="margin-top: 80px;">
+        <h1>算法课程</h1>
+        <p>欢迎来到AlgoLearn的算法课程页面。我们提供全面的算法学习资源，从基础到高级，帮助您掌握各种算法的原理和应用。</p>
+        
+        <section class="course-category">
+            <h2>基础算法</h2>
+            <div class="course-grid">
+                <div class="card">
+                    <img src="images/sort.jpg" alt="排序算法课程封面" loading="lazy" width="300" height="200">
+                    <h3>排序算法</h3>
+                    <p>冒泡排序、快速排序、归并排序等经典排序算法详解</p>
+                    <a href="algorithms/sort.html" class="btn">开始学习</a>
+                </div>
+                <div class="card">
+                    <img src="images/search.jpg" alt="搜索算法课程封面" loading="lazy" width="300" height="200">
+                    <h3>搜索算法</h3>
+                    <p>二分查找、深度优先搜索、广度优先搜索等搜索算法</p>
+                    <a href="algorithms/search.html" class="btn">开始学习</a>
+                </div>
+                <div class="card">
+                    <img src="images/complexity.jpg" alt="算法复杂度分析课程封面" loading="lazy" width="300" height="200">
+                    <h3>算法复杂度分析</h3>
+                    <p>时间复杂度、空间复杂度、渐进分析等基础理论</p>
+                    <a href="algorithms/complexity.html" class="btn">开始学习</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="course-category">
+            <h2>高级算法</h2>
+            <div class="course-grid">
+                <div class="card">
+                    <img src="images/dynamic.jpg" alt="动态规划课程封面" loading="lazy" width="300" height="200">
+                    <h3>动态规划</h3>
+                    <p>从入门到精通的动态规划算法讲解</p>
+                    <a href="algorithms/dynamic.html" class="btn">开始学习</a>
+                </div>
+                <div class="card">
+                    <img src="images/graph.jpg" alt="图论算法课程封面" loading="lazy" width="300" height="200">
+                    <h3>图论算法</h3>
+                    <p>最短路径、最小生成树、网络流等图论算法详解</p>
+                    <a href="algorithms/graph.html" class="btn">开始学习</a>
+                </div>
+                <div class="card">
+                    <img src="images/string.jpg" alt="字符串算法课程封面" loading="lazy" width="300" height="200">
+                    <h3>字符串算法</h3>
+                    <p>KMP算法、Trie树、后缀数组等字符串处理算法</p>
+                    <a href="algorithms/string.html" class="btn">开始学习</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="course-category">
+            <h2>特色算法</h2>
+            <div class="course-grid">
+                <div class="card">
+                    <img src="images/greedy.jpg" alt="贪心算法课程封面" loading="lazy" width="300" height="200">
+                    <h3>贪心算法</h3>
+                    <p>贪心策略、证明与应用，解决最优化问题</p>
+                    <a href="algorithms/greedy.html" class="btn">开始学习</a>
+                </div>
+                <div class="card">
+                    <img src="images/divide.jpg" alt="分治算法课程封面" loading="lazy" width="300" height="200">
+                    <h3>分治算法</h3>
+                    <p>分治思想、归并排序、快速排序等经典分治算法</p>
+                    <a href="algorithms/divide.html" class="btn">开始学习</a>
+                </div>
+                <div class="card">
+                    <img src="images/number.jpg" alt="数论算法课程封面" loading="lazy" width="300" height="200">
+                    <h3>数论算法</h3>
+                    <p>素数筛法、欧几里得算法、模运算等数论基础算法</p>
+                    <a href="algorithms/ml.html" class="btn">开始学习</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>AlgoLearn</h3>
+                    <p>致力于为编程爱好者提供优质的算法学习平台</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="algorithms.html">算法课程</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>关注我们</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-zhihu"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 AlgoLearn. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js" defer></script>
+</body>
+</html>

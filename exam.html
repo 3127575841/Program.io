@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟考试 - 算法学习网站</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .exam-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .exam-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s;
+        }
+
+        .exam-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .exam-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-item h4 {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item p {
+            color: #2C3E50;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .rules-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .rules-list li {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .rules-list li:last-child {
+            border-bottom: none;
+        }
+
+        .rules-list li:before {
+            content: "•";
+            color: #4A90E2;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .start-exam {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .start-exam .btn {
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+        }
+
+        .exam-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-available {
+            background-color: #e1f5e1;
+            color: #28a745;
+        }
+
+        .status-upcoming {
+            background-color: #fff3cd;
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">AlgoLearn</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="algorithms.html">算法课程</a></li>
+                <li><a href="practice.html">在线练习</a></li>
+                <li><a href="exam.html" class="active">模拟考试</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="content">
+        <h1 style="text-align: center; margin: 80px 0 40px;">模拟考试</h1>
+
+        <div class="exam-container">
+            <!-- 基础算法模拟考试 -->
+            <div class="exam-card">
+                <span class="exam-status status-available">可参加</span>
+                <h2>基础算法模拟考试</h2>
+                <div class="exam-info">
+                    <div class="info-item">
+                        <h4>考试时长</h4>
+                        <p>120分钟</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>题目数量</h4>
+                        <p>5题</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>难度</h4>
+                        <p>初级</p>
+                    </div>
+                </div>
+                <div class="rules-list">
+                    <h3>考试说明</h3>
+                    <ul>
+                        <li>包含基础的排序和搜索算法题目</li>
+                        <li>所有题目均为编程题，需要提交完整代码</li>
+                        <li>可以使用任意编程语言作答</li>
+                        <li>考试期间可以使用自己的IDE</li>
+                    </ul>
+                </div>
+                <div class="start-exam">
+                    <a href="https://leetcode.cn/study-plan/" target="_blank" class="btn">开始练习</a>
+                </div>
+            </div>
+
+            <!-- 进阶算法模拟考试 -->
+            <div class="exam-card">
+                <span class="exam-status status-upcoming">即将开始</span>
+                <h2>进阶算法模拟考试</h2>
+                <div class="exam-info">
+                    <div class="info-item">
+                        <h4>考试时长</h4>
+                        <p>180分钟</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>题目数量</h4>
+                        <p>4题</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>难度</h4>
+                        <p>中级</p>
+                    </div>
+                </div>
+                <div class="rules-list">
+                    <h3>考试说明</h3>
+                    <ul>
+                        <li>包含动态规划、图论等进阶算法题目</li>
+                        <li>需要较好的算法基础和代码实现能力</li>
+                        <li>提供部分测试用例，但最终评分会使用隐藏用例</li>
+                        <li>允许使用任何编程语言，但不允许使用外部库</li>
+                    </ul>
+                </div>
+                <div class="start-exam">
+                    <a href="https://www.luogu.com.cn/training/list" target="_blank" class="btn" style="background-color: #4A90E2;">开始练习</a>
+                </div>
+            </div>
+
+            <!-- 注意事项 -->
+            <div class="exam-card">
+                <h2>考试注意事项</h2>
+                <div class="rules-list">
+                    <ul>
+                        <li>请确保网络环境稳定，避免考试中断</li>
+                        <li>考试时间到后系统会自动提交当前答案</li>
+                        <li>提交后可以立即查看得分和参考解答</li>
+                        <li>同一类型的考试每周限参加3次</li>
+                        <li>如遇技术问题，请及时联系客服</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>致力于为编程爱好者提供优质的算法学习平台</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="algorithms.html">算法课程</a></li>
+                    <li><a href="practice.html">在线练习</a></li>
+                    <li><a href="exam.html">模拟考试</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>关注我们</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">微信</a>
+                    <a href="#" class="social-icon">QQ</a>
+                    <a href="#" class="social-icon">微博</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 算法学习平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

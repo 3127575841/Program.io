@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数论算法 - 庄宇哲的算法博客</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .algorithm-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .algorithm-section {
+            margin-bottom: 40px;
+        }
+        
+        .algorithm-section h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .code-block {
+            background-color: #000000;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            margin: 15px 0;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><a href="../index.html">庄宇哲的算法博客</a></div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">返回首页</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="algorithm-content">
+        <h1>数论算法</h1>
+
+        <section class="algorithm-section">
+            <h2>高精度算法</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 高精度加法
+#include<iostream>
+#include<vector>
+using namespace std;
+
+vector<int> add(vector<int> &A, vector<int> &B){
+    vector<int> C;
+    int t = 0;
+    for(int i = 0; i < A.size() || i < B.size(); i++){
+        if(i < A.size()) t += A[i];
+        if(i < B.size()) t += B[i];
+        C.push_back(t % 10);
+        t /= 10;
+    }
+    if(t) C.push_back(t);
+    return C;
+}
+
+int main(){
+    string a, b;
+    vector<int> A, B;
+    
+    cin >> a >> b;
+    for(int i = a.size() - 1; i >= 0; i--) A.push_back(a[i] - '0');
+    for(int i = b.size() - 1; i >= 0; i--) B.push_back(b[i] - '0');
+    
+    auto C = add(A, B);
+    
+    for(int i = C.size() - 1; i >= 0; i--) cout << C[i];
+    cout << endl;
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>素数筛法</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 埃氏筛法
+#include<iostream>
+using namespace std;
+
+const int N = 1000010;
+
+int primes[N], cnt;
+bool st[N];
+
+void get_primes(int n)
+{
+    for(int i = 2; i <= n; i++)
+    {
+        if(!st[i]) primes[cnt++] = i;
+        for(int j = 0; j < cnt && primes[j] <= n / i; j++)
+        {
+            st[primes[j] * i] = true;
+            if(i % primes[j] == 0) break;
+        }
+    }
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    
+    get_primes(n);
+    
+    cout << cnt << endl;
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>快速幂</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 快速幂算法
+#include<iostream>
+using namespace std;
+
+typedef long long LL;
+
+LL qmi(int a, int k, int p)
+{
+    LL res = 1;
+    while(k)
+    {
+        if(k & 1) res = res * a % p;
+        k >>= 1;
+        a = (LL)a * a % p;
+    }
+    return res;
+}
+
+int main()
+{
+    int n;
+    scanf("%d", &n);
+    while(n--)
+    {
+        int a, k, p;
+        scanf("%d%d%d", &a, &k, &p);
+        printf("%lld\n", qmi(a, k, p));
+    }
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 庄宇哲的算法博客. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

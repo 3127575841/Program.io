@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排序算法 - 庄宇哲的算法博客</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .algorithm-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .algorithm-section {
+            margin-bottom: 40px;
+        }
+        
+        .algorithm-section h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .code-block {
+            background-color: #000000;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            margin: 15px 0;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><a href="../index.html">庄宇哲的算法博客</a></div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">返回首页</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="algorithm-content">
+        <h1>排序算法</h1>
+
+        <section class="algorithm-section">
+            <h2>冒泡排序</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 冒泡排序
+#include<iostream>
+using namespace std;
+
+const int N = 100010;
+int a[N];
+
+void bubble_sort(int a[], int n)
+{
+    for(int i = 0; i < n - 1; i++)
+        for(int j = 0; j < n - 1 - i; j++)
+            if(a[j] > a[j + 1])
+                swap(a[j], a[j + 1]);
+}
+
+int main()
+{
+    int n;
+    scanf("%d", &n);
+    for(int i = 0; i < n; i++) scanf("%d", &a[i]);
+    
+    bubble_sort(a, n);
+    
+    for(int i = 0; i < n; i++) printf("%d ", a[i]);
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>选择排序</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 选择排序
+#include<iostream>
+using namespace std;
+
+const int N = 100010;
+int a[N];
+
+void selection_sort(int a[], int n)
+{
+    for(int i = 0; i < n - 1; i++)
+    {
+        int min_idx = i;
+        for(int j = i + 1; j < n; j++)
+            if(a[j] < a[min_idx])
+                min_idx = j;
+        swap(a[i], a[min_idx]);
+    }
+}
+
+int main()
+{
+    int n;
+    scanf("%d", &n);
+    for(int i = 0; i < n; i++) scanf("%d", &a[i]);
+    
+    selection_sort(a, n);
+    
+    for(int i = 0; i < n; i++) printf("%d ", a[i]);
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>插入排序</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 插入排序
+#include<iostream>
+using namespace std;
+
+const int N = 100010;
+int a[N];
+
+void insertion_sort(int a[], int n)
+{
+    for(int i = 1; i < n; i++)
+    {
+        int key = a[i];
+        int j = i - 1;
+        while(j >= 0 && a[j] > key)
+        {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = key;
+    }
+}
+
+int main()
+{
+    int n;
+    scanf("%d", &n);
+    for(int i = 0; i < n; i++) scanf("%d", &a[i]);
+    
+    insertion_sort(a, n);
+    
+    for(int i = 0; i < n; i++) printf("%d ", a[i]);
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>归并排序</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 归并排序
+#include<iostream>
+using namespace std;
+
+const int N = 100010;
+int a[N], tmp[N];
+
+void merge_sort(int q[], int l, int r)
+{
+    if(l >= r) return;
+    
+    int mid = l + r >> 1;
+    merge_sort(q, l, mid);
+    merge_sort(q, mid + 1, r);
+    
+    int k = 0, i = l, j = mid + 1;
+    while(i <= mid && j <= r)
+        if(q[i] <= q[j]) tmp[k++] = q[i++];
+        else tmp[k++] = q[j++];
+    
+    while(i <= mid) tmp[k++] = q[i++];
+    while(j <= r) tmp[k++] = q[j++];
+    
+    for(i = l, j = 0; i <= r; i++, j++) q[i] = tmp[j];
+}
+
+int main()
+{
+    int n;
+    scanf("%d", &n);
+    for(int i = 0; i < n; i++) scanf("%d", &a[i]);
+    
+    merge_sort(a, 0, n - 1);
+    
+    for(int i = 0; i < n; i++) printf("%d ", a[i]);
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>快速排序</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 快速排序
+#include<iostream>
+using namespace std;
+
+const int N = 100010;
+int a[N];
+
+void quick_sort(int q[], int l, int r)
+{
+    if(l >= r) return;
+    
+    int x = q[l + r >> 1], i = l - 1, j = r + 1;
+    while(i < j)
+    {
+        do i++; while(q[i] < x);
+        do j--; while(q[j] > x);
+        if(i < j) swap(q[i], q[j]);
+    }
+    
+    quick_sort(q, l, j);
+    quick_sort(q, j + 1, r);
+}
+
+int main()
+{
+    int n;
+    scanf("%d", &n);
+    for(int i = 0; i < n; i++) scanf("%d", &a[i]);
+    
+    quick_sort(a, 0, n - 1);
+    
+    for(int i = 0; i < n; i++) printf("%d ", a[i]);
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>堆排序</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 堆排序
+#include<iostream>
+using namespace std;
+
+const int N = 100010;
+int h[N], size;
+
+void down(int u)
+{
+    int t = u;
+    if(2 * u <= size && h[2 * u] < h[t]) t = 2 * u;
+    if(2 * u + 1 <= size && h[2 * u + 1] < h[t]) t = 2 * u + 1;
+    if(u != t)
+    {
+        swap(h[u], h[t]);
+        down(t);
+    }
+}
+
+int main()
+{
+    int n, m;
+    scanf("%d%d", &n, &m);
+    for(int i = 1; i <= n; i++) scanf("%d", &h[i]);
+    size = n;
+    
+    for(int i = n / 2; i; i--) down(i);
+    
+    while(m--)
+    {
+        printf("%d ", h[1]);
+        h[1] = h[size];
+        size--;
+        down(1);
+    }
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 庄宇哲的算法博客. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

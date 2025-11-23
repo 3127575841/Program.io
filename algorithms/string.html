@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字符串算法 - 庄宇哲的算法博客</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .algorithm-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .algorithm-section {
+            margin-bottom: 40px;
+        }
+        
+        .algorithm-section h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .code-block {
+            background-color: #000000;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            margin: 15px 0;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><a href="../index.html">庄宇哲的算法博客</a></div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">返回首页</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="algorithm-content">
+        <h1>字符串算法</h1>
+
+        <section class="algorithm-section">
+            <h2>KMP算法</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// KMP算法实现
+#include<iostream>
+using namespace std;
+
+const int N = 100010,M = 1000010;
+int n,m;
+char p[N],s[M];
+int ne[N];
+
+int main(){
+    cin >> n >> p+1 >> m >> s+1;
+    
+    //求next数组
+    for(int i=2,j=0;i<=n;i++){
+        while(j && p[i]!=p[j+1]) j=ne[j];
+        if(p[i]==p[j+1]) j++;
+        ne[i]=j;
+    }
+    
+    //KMP匹配
+    for(int i=1,j=0;i<=m;i++){
+        while(j && s[i]!=p[j+1]) j=ne[j];
+        if(s[i]==p[j+1]) j++;
+        if(j==n){
+            printf("%d ",i-n);
+            j=ne[j];
+        }
+    }
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>扩展KMP</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 扩展KMP算法实现
+#include<iostream>
+using namespace std;
+
+const int N = 100010;
+int n,m;
+char s[N],p[N];
+int z[N];
+
+void z_function(char *s, int n, int *z) {
+    z[1] = n;
+    for(int i=2,l=0,r=0;i<=n;i++) {
+        if(i<=r) z[i] = min(z[i-l+1],r-i+1);
+        while(i+z[i]<=n && s[i+z[i]]==s[z[i]+1]) z[i]++;
+        if(i+z[i]-1>r) l=i,r=i+z[i]-1;
+    }
+}
+
+int main() {
+    scanf("%d%s",&n,s+1);
+    z_function(s,n,z);
+    for(int i=1;i<=n;i++) printf("%d ",z[i]);
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>Manacher算法</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// Manacher算法实现
+#include<iostream>
+using namespace std;
+
+const int N = 100010;
+int n;
+char s[N],str[N<<1];
+int p[N<<1];
+
+void init() {
+    str[0] = '$';
+    str[1] = '#';
+    for(int i=0;i<n;i++) {
+        str[i*2+2] = s[i];
+        str[i*2+3] = '#';
+    }
+    n = n*2+2;
+}
+
+int manacher() {
+    int mr = 0, mid;
+    for(int i=1;i<n;i++) {
+        if(i < mr) p[i] = min(p[mid*2-i], mr-i);
+        else p[i] = 1;
+        while(str[i-p[i]] == str[i+p[i]]) p[i]++;
+        if(i+p[i] > mr) {
+            mr = i+p[i];
+            mid = i;
+        }
+    }
+    int res = 0;
+    for(int i=0;i<n;i++) res = max(res,p[i]-1);
+    return res;
+}
+
+int main() {
+    scanf("%s",s);
+    n = strlen(s);
+    init();
+    printf("%d\n",manacher());
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 庄宇哲的算法博客. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

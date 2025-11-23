@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态规划 - 庄宇哲的算法博客</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .algorithm-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .algorithm-section {
+            margin-bottom: 40px;
+        }
+        
+        .algorithm-section h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .code-block {
+            background-color: #000000;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            margin: 15px 0;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><a href="../index.html">庄宇哲的算法博客</a></div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">返回首页</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="algorithm-content">
+        <h1>动态规划</h1>
+
+        <section class="algorithm-section">
+            <h2>斐波那契数列</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 斐波那契数列 - 动态规划实现
+#include<iostream>
+#include<vector>
+using namespace std;
+
+// 记忆化递归
+int fib_memo(int n, vector<int>& memo) {
+    if (n <= 1) return n;
+    if (memo[n] != -1) return memo[n];
+    
+    memo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo);
+    return memo[n];
+}
+
+// 动态规划（自底向上）
+int fib_dp(int n) {
+    if (n <= 1) return n;
+    
+    vector<int> dp(n + 1);
+    dp[0] = 0;
+    dp[1] = 1;
+    
+    for (int i = 2; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+    
+    return dp[n];
+}
+
+// 空间优化
+int fib_optimized(int n) {
+    if (n <= 1) return n;
+    
+    int a = 0, b = 1;
+    for (int i = 2; i <= n; i++) {
+        int c = a + b;
+        a = b;
+        b = c;
+    }
+    
+    return b;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    
+    // 使用记忆化递归
+    vector<int> memo(n + 1, -1);
+    cout << "记忆化递归: " << fib_memo(n, memo) << endl;
+    
+    // 使用动态规划
+    cout << "动态规划: " << fib_dp(n) << endl;
+    
+    // 使用空间优化的方法
+    cout << "空间优化: " << fib_optimized(n) << endl;
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>背包问题</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 01背包问题
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int knapsack(int W, vector<int>& weights, vector<int>& values, int n) {
+    // 创建dp数组
+    vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));
+    
+    // 填充dp表
+    for (int i = 1; i <= n; i++) {
+        for (int w = 1; w <= W; w++) {
+            // 当前物品不放入背包
+            dp[i][w] = dp[i - 1][w];
+            
+            // 如果当前物品可以放入背包，考虑放入
+            if (weights[i - 1] <= w) {
+                dp[i][w] = max(dp[i][w], dp[i - 1][w - weights[i - 1]] + values[i - 1]);
+            }
+        }
+    }
+    
+    return dp[n][W];
+}
+
+// 01背包空间优化版本
+int knapsack_optimized(int W, vector<int>& weights, vector<int>& values, int n) {
+    vector<int> dp(W + 1, 0);
+    
+    for (int i = 0; i < n; i++) {
+        for (int w = W; w >= weights[i]; w--) {
+            dp[w] = max(dp[w], dp[w - weights[i]] + values[i]);
+        }
+    }
+    
+    return dp[W];
+}
+
+int main() {
+    int n, W;
+    cin >> n >> W;
+    
+    vector<int> weights(n);
+    vector<int> values(n);
+    
+    for (int i = 0; i < n; i++) {
+        cin >> weights[i] >> values[i];
+    }
+    
+    cout << "最大价值: " << knapsack(W, weights, values, n) << endl;
+    cout << "最大价值(优化): " << knapsack_optimized(W, weights, values, n) << endl;
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>最长公共子序列</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 最长公共子序列
+#include<iostream>
+#include<vector>
+#include<string>
+using namespace std;
+
+int longestCommonSubsequence(string text1, string text2) {
+    int m = text1.length();
+    int n = text2.length();
+    
+    // 创建dp数组
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    
+    // 填充dp表
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (text1[i - 1] == text2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            } else {
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+    
+    return dp[m][n];
+}
+
+// 返回最长公共子序列
+string getLCS(string text1, string text2) {
+    int m = text1.length();
+    int n = text2.length();
+    
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (text1[i - 1] == text2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            } else {
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+    
+    // 回溯找出最长公共子序列
+    string lcs = "";
+    int i = m, j = n;
+    while (i > 0 && j > 0) {
+        if (text1[i - 1] == text2[j - 1]) {
+            lcs = text1[i - 1] + lcs;
+            i--; j--;
+        } else if (dp[i - 1][j] > dp[i][j - 1]) {
+            i--;
+        } else {
+            j--;
+        }
+    }
+    
+    return lcs;
+}
+
+int main() {
+    string text1, text2;
+    cin >> text1 >> text2;
+    
+    cout << "最长公共子序列长度: " << longestCommonSubsequence(text1, text2) << endl;
+    cout << "最长公共子序列: " << getLCS(text1, text2) << endl;
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+
+        <section class="algorithm-section">
+            <h2>编辑距离</h2>
+            <div class="code-block">
+                <pre><code class="cpp">
+// 编辑距离
+#include<iostream>
+#include<vector>
+#include<string>
+using namespace std;
+
+int minDistance(string word1, string word2) {
+    int m = word1.length();
+    int n = word2.length();
+    
+    // 创建dp数组，dp[i][j]表示word1的前i个字符转换到word2的前j个字符所需的最小操作数
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    
+    // 初始化边界
+    for (int i = 0; i <= m; i++) dp[i][0] = i;
+    for (int j = 0; j <= n; j++) dp[0][j] = j;
+    
+    // 填充dp表
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (word1[i - 1] == word2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else {
+                dp[i][j] = min(min(dp[i - 1][j] + 1, dp[i][j - 1] + 1), dp[i - 1][j - 1] + 1);
+            }
+        }
+    }
+    
+    return dp[m][n];
+}
+
+int main() {
+    string word1, word2;
+    cin >> word1 >> word2;
+    
+    cout << "编辑距离: " << minDistance(word1, word2) << endl;
+    
+    return 0;
+}
+                </code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 庄宇哲的算法博客. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 
